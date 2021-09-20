@@ -64,9 +64,9 @@ class MyFloatOutViewHolder(val binding: FloatoutitemlistBinding):RecyclerView.Vi
             binding.floatoutcardView.setCardBackgroundColor(Color.parseColor("#ff0f0f"))
             // Set text color what should be for upcoming buses
         }
-        binding.sectionone.text="Amount -"+floatOut.amount+"\n"+floatOut.comment+"\n"+floatOut.transid+"\n"+getDate(floatOut.createdAt)
+        binding.sectionone.text="Amount -"+floatOut.amount+"\n"+floatOut.comment+"\n"+floatOut.transid+"\n"+getDate(floatOut.createdat)
         binding.sectiontwo.text=floatOut.wakalaname+"\n"+floatOut.wakalanumber
-        binding.sectionthree.text=floatOut.network+"\n"+ getDate(floatOut.modifiedAt)
+        binding.sectionthree.text=floatOut.network+"\n"+ getDate(floatOut.modifiedat)
         binding.listItemLayout.setOnClickListener {
             clickListener(floatOut)
         }

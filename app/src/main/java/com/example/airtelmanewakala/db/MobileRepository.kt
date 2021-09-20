@@ -1,7 +1,6 @@
 package com.example.airtelmanewakala.db
 
-import android.database.Cursor
-import androidx.lifecycle.LiveData
+
 import kotlinx.coroutines.flow.Flow
 
 class MobileRepository(private val dao: MobileDAO) {
@@ -65,7 +64,8 @@ class MobileRepository(private val dao: MobileDAO) {
         towakalacode: String,
         wakalamkuunumber: String,
         towakalaname: String,
-        modifiedat: Long
+        modifiedat: Long,
+        madeatorder:Long
     ): Int {
         return dao.updateFloatIn(
             status,
@@ -75,12 +75,13 @@ class MobileRepository(private val dao: MobileDAO) {
             towakalacode,
             wakalamkuunumber,
             towakalaname,
-            modifiedat
+            modifiedat,
+            madeatorder
         )
     }
 
-     suspend fun updateFloatInLarge(
-         floatinid: Int,
+    suspend fun updateFloatInLarge(
+        floatinid: Int,
         comment: String,
         modifiedat: Long
     ): Int {
@@ -91,12 +92,12 @@ class MobileRepository(private val dao: MobileDAO) {
         )
     }
 
-    suspend fun searchFloatInDuplicate(transid: String): Boolean {
-        return dao.searchFloatInDuplicate(transid)
+    suspend fun searchFloatInNotDuplicate(transid: String): Boolean {
+        return dao.searchFloatInNotDuplicate(transid)
     }
 
-    suspend fun searchFloatInOrder(wakalaid: String): FloatIn {
-        return dao.searchFloatInOrder(wakalaid)
+    suspend fun getFloatInOrder(wakalaid: String): FloatIn {
+        return dao.getFloatInOrder(wakalaid)
     }
 
 
@@ -125,7 +126,7 @@ class MobileRepository(private val dao: MobileDAO) {
         status: Int,
         comment: String,
         wakalanumber: String,
-        modifiedAt: Long
+        modifiedat: Long
     ): Int {
         return dao.updateFloatOutChange(
             floatoutid,
@@ -141,27 +142,50 @@ class MobileRepository(private val dao: MobileDAO) {
             status,
             comment,
             wakalanumber,
-            modifiedAt
+            modifiedat
         )
     }
+
+    suspend fun deleteFloatInChange(
+        modifiedat:Long,
+        floatoutid:Int,
+    ) {
+        return dao.deleteFloatInChange(
+            modifiedat,
+            floatoutid
+        )
+    }
+
 
     suspend fun updateFloatOut(
         status: Int,
         amount: String,
-        wakalaidkey: String,
-        fromfloatinid: String,
-        comment: String,
+        wakalaname: String,
+        transid: String,
         networksms: String,
-        modifiedat: Long
-    ) {
+        comment: String,
+        modifiedat: Long,
+        madeatfloat:Long
+    ): Int  {
         return dao.updateFloatOut(
             status,
             amount,
-            wakalaidkey,
-            fromfloatinid,
-            comment,
+            wakalaname,
+            transid,
             networksms,
-            modifiedat
+            comment,
+            modifiedat,
+            madeatfloat
+        )
+    }
+
+    suspend fun deleteFloatOutChange(
+        modifiedat:Long,
+        floatoutid:Int,
+    ) {
+        return dao.deleteFloatOutChange(
+            modifiedat,
+            floatoutid
         )
     }
 
@@ -183,19 +207,18 @@ class MobileRepository(private val dao: MobileDAO) {
         )
     }
 
-    suspend fun searchFloatOutDuplicate(transid: String): Boolean {
-        return dao.searchFloatOutDuplicate(transid)
+    suspend fun searchFloatOutNotDuplicate(transid: String): Boolean {
+        return dao.searchFloatOutNotDuplicate(transid)
     }
 
     suspend fun searchFloatOutWakalaOrder(wakalaname: String): Boolean {
         return dao.searchFloatOutWakalaOrder(wakalaname)
     }
 
-    suspend fun searchFloatOutWakalaMkuuOrderDuplicate(
-        fromfloatinid: String,
+    suspend fun searchFloatOutOrderNotDuplicate(
         fromtransid: String
     ): Boolean {
-        return dao.searchFloatOutWakalaMkuuOrderDuplicate(fromfloatinid, fromtransid)
+        return dao.searchFloatOutOrderNotDuplicate(fromtransid)
     }
 
 
@@ -206,9 +229,10 @@ class MobileRepository(private val dao: MobileDAO) {
         dao.insertBalance(balance)
     }
 
-    suspend fun getBalance(): Balance {
-        return dao.getBalance()
+    suspend fun getBalance():Int{
+        return dao.getBalance()?.get(0).balance.toInt()
     }
+
 
 
     //WAKALAMKUU
@@ -239,9 +263,9 @@ class MobileRepository(private val dao: MobileDAO) {
         return dao.searchWakalaMkuuHalotel(columnvalue)
     }
 
-//    suspend fun searchWakalaMkuuAirtel(columnvalue:String): WakalaMkuu{
-//        return dao.searchWakalaMkuuAirtel(columnvalue)
-//    }
+    suspend fun searchWakalaMkuuAirtel(columnvalue:String): WakalaMkuu{
+        return dao.searchWakalaMkuuAirtel(columnvalue)
+    }
 
     suspend fun getWakalaMkuu(): WakalaMkuu {
         return dao.getWakalaMkuu()
@@ -275,8 +299,8 @@ class MobileRepository(private val dao: MobileDAO) {
         return dao.searchWakalaTigo(columnvalue, wakalaidkey)
     }
 
-    suspend fun searchWakalaVoda(columnvalue: String, wakalaidkey: String): Wakala {
-        return dao.searchWakalaVoda(columnvalue, wakalaidkey)
+    suspend fun searchWakalaVoda(columnname: String,columnvalue: String, wakalaidkey: String): Wakala {
+        return dao.searchWakalaVoda(columnname,columnvalue, wakalaidkey)
     }
 
     suspend fun searchWakalaAirtel(columnvalue: String, wakalaidkey: String): Wakala {

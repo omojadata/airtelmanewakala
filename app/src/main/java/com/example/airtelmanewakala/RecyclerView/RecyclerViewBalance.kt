@@ -13,6 +13,8 @@ import com.example.airtelmanewakala.databinding.BalanceitemlistBinding
 
 import com.example.airtelmanewakala.db.Balance
 import com.example.airtelmanewakala.db.FloatIn
+import com.example.airtelmanewakala.getComma
+import com.example.airtelmanewakala.getDate
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -56,20 +58,8 @@ class MyBalanceViewHolder(val binding: BalanceitemlistBinding): RecyclerView.Vie
 
         binding.sectionone.text="Tsh "+getComma(balance.balance)
         binding.sectiontwo.text=balance.floatname+"\n"+"Tsh "+getComma(balance.floatamount)
-        binding.sectionthree.text=getdate(balance.createdAt)
+        binding.sectionthree.text=getDate(balance.createdAt)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun getComma(i:String):String?{
-        val ans=NumberFormat.getNumberInstance(Locale.US).format(i.toInt())
-        return ans.toString()
-    }
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun getdate(created:Long): String? {
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        val instant = Instant.ofEpochMilli(created)
-        val date = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
-        return formatter.format(date).toString()
-    }
 
 }

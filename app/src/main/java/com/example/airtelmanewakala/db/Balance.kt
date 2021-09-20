@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "balance_table")
 data class Balance(
 
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="balanceid")
     val balanceid: Int,

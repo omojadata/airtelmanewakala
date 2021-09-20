@@ -75,14 +75,14 @@ class WakalaMkuu : Fragment() {
 
 
     fun initRecyclerView(){
-       binding.wakalamkuuRecyclerView.layoutManager=LinearLayoutManager(context)
+        binding.wakalamkuuRecyclerView.layoutManager=LinearLayoutManager(context)
         displayTransactionList()
     }
 
     private fun displayTransactionList(){
-    wakalaMkuuViewModel.wakalaMkuu.observe(this, Observer {
-        binding.wakalamkuuRecyclerView.adapter=RecyclerViewWakalaMkuu(it,{selectedItem:WakalaMkuu->listItemClicked(selectedItem)})
-    })
+        wakalaMkuuViewModel.wakalaMkuu.observe(this, Observer {
+            binding.wakalamkuuRecyclerView.adapter=RecyclerViewWakalaMkuu(it,{selectedItem:WakalaMkuu->listItemClicked(selectedItem)})
+        })
     }
 
     private fun listItemClicked(wakalaMkuu: WakalaMkuu){

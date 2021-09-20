@@ -41,30 +41,6 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
         intent1.putExtra("smstime",strTime)
         context.applicationContext.startForegroundService(intent1)
 
-
-//        if (pdus != null) {
-
-//            msgs = arrayOfNulls(pdus.size)
-
-//            for (i in msgs.indices) {
-//                var strAddress = "";
-//                var strBody ="";
-//                var strTime = "";
-//                    msgs[i] = SmsMessage.createFromPdu(pdus[i] as ByteArray, format)
-//                for (j in msgs.indices) {
-//                    strAddress = (msgs[i]?.originatingAddress.toString())
-//                    strBody += (msgs[i]?.messageBody.toString())
-//                    strTime = (msgs[i]?.timestampMillis.toString())
-//                }
-//
-//                val intent1 = Intent(context!!.applicationContext, ForegroundSmsService::class.java)
-//                intent1.putExtra("smsadress",strAddress)
-//                intent1.putExtra("smsbody",strBody)
-//                intent1.putExtra("smstime",strTime)
-//                context.applicationContext.startForegroundService(intent1)
-//
-//            }
-//        }
     }
 
 

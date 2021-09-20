@@ -94,7 +94,7 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
             emit(it)
         }
     }
-
+//    8IE95V3NYE9 Imethibitishwa, tarehe 14/9/21  saa 9:42 AM chukua Tsh5,000.00 kutoka 988830 - EXTRATIME ENTERPRISES STORE 6.Salio lako la M-Pesa ni Tsh10,000.00.
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun floatInUpdate(floatIn: FloatIn): Job =
@@ -105,8 +105,8 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
                 val (amount, name, balance, transid) = getFloatIn(floatIn.networksms)
 
                 //CHECK IF TRANSACTION EXISTS
-                val searchFloatInDuplicate = repository.searchFloatInDuplicate(transid)
-                if (!searchFloatInDuplicate) {
+                val searchFloatInNotDuplicate = repository.searchFloatInNotDuplicate(transid)
+                if (searchFloatInNotDuplicate) {
 
                     //BALANCE FUNTION
                     checkbalancefunction(
@@ -114,86 +114,30 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
                         amount,
                         name,
                         1,
-                        floatIn.createdAt,
-                        floatIn.madeAt
+                        floatIn.createdat,
+                        floatIn.madeatfloat
                     )
 
                     //CHECK IF WAKALA EXISTS
                     val searchWakala = repository.searchWakala(name)
 
                     if (searchWakala != null) {
-                        val timeDiff = floatIn.createdAt - floatIn.madeAt
 
                         val wakalaKeyId = searchWakala.wakalaid
                         val wakalacontact = searchWakala.contact
-                        val fromwakalaname = searchWakala.airtelname
-                        val fromwakalacode = searchWakala.airtelmoney
+                        val fromwakalaname = searchWakala.vodaname
+                        val fromwakalacode = searchWakala.mpesa
 
                         val currentamount = amount.toInt()
 
                         val maxamount = searchWakala.maxamount
                         val maxAmount = maxamount.toInt()
-                        if (isTodayDate(floatIn.madeAt)) {
+                        if (isTodayDate(floatIn.madeatfloat)) {
                             //CHECK IF FLOAT IN AMOUNT LESS OR EQUAL TO MAX AMOUNT
                             if (currentamount <= maxAmount) {
 
                                 //INSERT FLOATIN STATUS 0( WAITING ORDER)
-                                launch {
 
-                                    uFloatInChange(
-                                        floatIn.floatinid,
-                                        transid,
-                                        amount,
-                                        maxamount,
-                                        balance,
-                                        wakalaKeyId,
-                                        0,
-                                        "",
-                                        "WAITING ORDER",
-                                        fromwakalacode,
-                                        "",
-                                        "",
-                                        fromwakalaname,
-                                        "",
-                                        wakalacontact,
-                                        modifiedAt,
-                                    )
-
-                                    val amounting=getComma(amount)
-                                    val timeM= getTime(floatIn.madeAt)
-                                    val timeC= getTime(floatIn.createdAt)
-
-                                    var smsText =
-                                        "Muamala No: ${transid}, Kiasi: Tsh $amounting, Muda uliotuma: $timeM, Muda ulioingia: $timeC, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Mpesa au Halopesa"
-                                    sendSms(wakalacontact, smsText)
-                                }
-                            } else {
-                                launch {
-
-                                    uFloatInChange(
-                                        floatIn.floatinid,
-                                        transid,
-                                        amount,
-                                        maxamount,
-                                        balance,
-                                        wakalaKeyId,
-                                        2,
-                                        "",
-                                        "LARGE/WAIT",
-                                        fromwakalacode,
-                                        "",
-                                        "",
-                                        fromwakalaname,
-                                        "",
-                                        wakalacontact,
-                                        modifiedAt,
-                                    )
-                                }
-                            }
-                        } else {
-
-                            //INSERT FLOATIN STATUS 4(LATE ORDER)....SMS IMECHELIWA BY 300000 seconds/5 min
-                            launch {
                                 uFloatInChange(
                                     floatIn.floatinid,
                                     transid,
@@ -201,9 +145,38 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
                                     maxamount,
                                     balance,
                                     wakalaKeyId,
-                                    4,
+                                    0,
                                     "",
-                                    "LATE ORDER",
+                                    "WAITING ORDER",
+                                    fromwakalacode,
+                                    "",
+                                    "",
+                                    fromwakalaname,
+                                    "",
+                                    wakalacontact,
+                                    modifiedAt,
+                                )
+
+                                val amounting = getComma(amount)
+                                val timeM = getTime(floatIn.madeatfloat)
+                                val timeC = getTime(floatIn.createdat)
+
+                                var smsText =
+                                    "Muamala No: ${transid}, Kiasi: Tsh $amounting, Muda uliotuma: $timeM, Muda ulioingia: $timeC, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Mpesa au Halopesa"
+                                sendSms(wakalacontact, smsText)
+
+                            } else {
+
+                                uFloatInChange(
+                                    floatIn.floatinid,
+                                    transid,
+                                    amount,
+                                    maxamount,
+                                    balance,
+                                    wakalaKeyId,
+                                    2,
+                                    "",
+                                    "LARGE/WAIT",
                                     fromwakalacode,
                                     "",
                                     "",
@@ -214,40 +187,61 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
                                 )
 
                             }
-                        }
-                    } else {
-                        //INSERT FLOATIN STATUS 3(UNKWOWN WAKALA)..SIO WAKALA WETU
+                        } else {
 
-                        launch {
+                            //INSERT FLOATIN STATUS 4(LATE ORDER)....SMS IMECHELIWA BY 300000 seconds/5 min
+
                             uFloatInChange(
                                 floatIn.floatinid,
                                 transid,
                                 amount,
-                                "",
+                                maxamount,
                                 balance,
+                                wakalaKeyId,
+                                4,
                                 "",
-                                3,
-                                "",
-                                "UNKNOWN WAKALA",
-                                "",
-                                "",
-                                "",
+                                "LATE ORDER",
+                                fromwakalacode,
                                 "",
                                 "",
+                                fromwakalaname,
                                 "",
+                                wakalacontact,
                                 modifiedAt,
                             )
 
-                            //SEND ERROR TEXT TO ERROR NUMBER IF FLOATIN UNKNOWN WAKALA INSERTED
-                            var smsText =
-                                "$fromnetwork ERROR = UNKWOWN WAKALA: ${floatIn.networksms}"
-
-                            sendSms(errornumber, smsText)
                         }
+                    } else {
+                        //INSERT FLOATIN STATUS 3(UNKWOWN WAKALA)..SIO WAKALA WETU
+
+                        uFloatInChange(
+                            floatIn.floatinid,
+                            transid,
+                            amount,
+                            "",
+                            balance,
+                            "",
+                            3,
+                            "",
+                            "UNKNOWN WAKALA",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            modifiedAt,
+                        )
+
+                        //SEND ERROR TEXT TO ERROR NUMBER IF FLOATIN UNKNOWN WAKALA INSERTED
+                        var smsText =
+                            "$fromnetwork ERROR = UNKWOWN WAKALA: ${floatIn.networksms}"
+
+                        sendSms(errornumber, smsText)
+
                     }
                 } else {
                     //UPDATE FLOAT IN TRANSACTION ALREADY EXISTS
-
                     uFloatInChange(
                         floatIn.floatinid,
                         transid,
@@ -269,14 +263,34 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
                 }
             } else {
                 val float = floatinchange.toString()
-                val smsText = "$fromnetwork ERROR = CHANGES: ${floatIn.networksms} -Changes in $float"
+                uFloatInChange(
+                    floatIn.floatinid,
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    5,
+                    "",
+                    "CHANGES IN $float",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    modifiedAt,
+                )
 
+                val smsText =
+                    "$fromnetwork ERROR = CHANGES: ${floatIn.networksms} -Changes in $float"
                 sendSms(errornumber, smsText)
+                floatinchange.clear()
             }
         }
 
 
-    private fun uFloatInChange(
+    private suspend fun uFloatInChange(
         floatinid: Int,
         transid: String,
         amount: String,
@@ -293,43 +307,40 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
         towakalaname: String,
         wakalacontact: String,
         modifiedAt: Long,
-    ): Job =
-        viewModelScope.launch {
-            repository.updateFloatInChange(
-                floatinid,
-                transid,
-                amount,
-                maxamount,
-                balance,
-                wakalaidkey,
-                status,
-                fromnetwork,
-                wakalaorder,
-                comment,
-                fromwakalacode,
-                towakalacode,
-                wakalamkuunumber,
-                fromwakalaname,
-                towakalaname,
-                wakalacontact,
-                modifiedAt,
-            )
-        }
+    ) {
+        repository.updateFloatInChange(
+            floatinid,
+            transid,
+            amount,
+            maxamount,
+            balance,
+            wakalaidkey,
+            status,
+            fromnetwork,
+            wakalaorder,
+            comment,
+            fromwakalacode,
+            towakalacode,
+            wakalamkuunumber,
+            fromwakalaname,
+            towakalaname,
+            wakalacontact,
+            modifiedAt,
+        )
+    }
 
     fun uFloatInLarge(
         floatinid: Int,
         comment: String,
         modifiedat: Long
     ): Job =
-        viewModelScope.launch {
+        viewModelScope.launch  {
             repository.updateFloatInLarge(
                 floatinid,
                 comment,
                 modifiedat,
             )
         }
-
-
 
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -341,35 +352,25 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
         createdAt: Long,
         madeAt: Long
     ) {
-        viewModelScope.launch {
-
-                //INSERT BALANCE
-                repository.insertBalance(
-                    Balance(
-                        0,
-                        balance,
-                        amount,
-                        name,
-                        status,
-                        createdAt,
-                        madeAt
-                    )
-                )
-                //CHECK BALANCE
-                val balancecheck =
-                    if (repository.getBalance() == null) 0 else repository.getBalance().balance.toInt();
-                if (balancecheck > 100000) {
-                    val smsText = "$fromnetwork SALIO = : CHINI CHA ${getComma("100000")}"
-
-                    sendSms(errornumber, smsText)
-                    //send balance error
-                    //turn off error
-                }
-
-
+        //INSERT BALANCE
+        repository.insertBalance(
+            Balance(
+                0,
+                balance,
+                amount,
+                name,
+                status,
+                createdAt,
+                madeAt
+            )
+        )
+        //CHECK BALANCE
+        val balancecheck = repository?.getBalance();
+        if (balancecheck > 100000) {
+            val smsText = "$fromnetwork SALIO = : CHINI CHA ${getComma("100000")}"
+            sendSms(errornumber, smsText)
         }
     }
-
 
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
 

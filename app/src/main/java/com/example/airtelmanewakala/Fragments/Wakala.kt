@@ -111,7 +111,7 @@ class Wakala : Fragment() {
         binding.downloadWakalaText.visibility=View.GONE;
 
         isAllFabsVisible = false;
-       binding.wakalaFab.setOnClickListener(
+        binding.wakalaFab.setOnClickListener(
             View.OnClickListener {
                 isAllFabsVisible = if (!isAllFabsVisible!!) {
                     binding.refreshWakalaFab.show()
@@ -154,7 +154,7 @@ class Wakala : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-     fun allRecyclerView(){
+    fun allRecyclerView(){
         adapter= RecyclerViewWakala { selectedItem: Wakala -> listItemClicked(selectedItem) }
         binding.wakalaRecyclerView.adapter=adapter
         displayAllList()
@@ -176,10 +176,10 @@ class Wakala : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun searchRecyclerView(text: String){
-            Log.i("xyxv","five")
+        Log.i("xyxv","five")
         adapter= RecyclerViewWakala {selectedItem: Wakala -> listItemClicked(selectedItem)  }
-            binding.wakalaRecyclerView.adapter =adapter
-            displaySearchList(text)
+        binding.wakalaRecyclerView.adapter =adapter
+        displaySearchList(text)
         binding.searchView.isSubmitButtonEnabled=true
     }
 
@@ -190,7 +190,7 @@ class Wakala : Fragment() {
         })
     }
 
-   fun exportFile() {
+    fun exportFile() {
         val csvFile =  generateFile(context, "Wakala.csv")
         if (csvFile != null) {
             exportRoomToFile(csvFile)

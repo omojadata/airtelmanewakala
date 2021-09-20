@@ -32,7 +32,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
-class FloatOutViewModel ( private val repository: MobileRepository): ViewModel(), Observable  {
+class FloatOutViewModel(private val repository: MobileRepository) : ViewModel(), Observable {
 
     @Bindable
     val allButton = MutableLiveData<String>()
@@ -44,39 +44,40 @@ class FloatOutViewModel ( private val repository: MobileRepository): ViewModel()
     val uploadButton = MutableLiveData<String>()
 
     init {
-        allButton.value= "A"
-    }
-    init {
-        zeroButton.value= "Pending"
-    }
-    init {
-        oneButton.value= "Ussd"
-    }
-    init {
-        twoButton.value= "Done"
-    }
-    init {
-        threeButton.value= "Invalid"
+        allButton.value = "A"
     }
 
     init {
-        fourButton.value= "Change"
+        zeroButton.value = "Pending"
     }
 
     init {
-        uploadButton.value= "UP"
+        oneButton.value = "Ussd"
     }
 
-    var floatoutchange = StringBuilder()
-    var mtandao = "+255714363727"
+    init {
+        twoButton.value = "Done"
+    }
+
+    init {
+        threeButton.value = "Invalid"
+    }
+
+    init {
+        fourButton.value = "Change"
+    }
+
+    init {
+        uploadButton.value = "UP"
+    }
+
     val modifiedAt = System.currentTimeMillis()
-    var mtandaoname = "AIRTEL"
-    val contactnumber = "+255714363627"
-    val errornumber = "+245683071757"
+
     @Bindable
-    val getButtonText=MutableLiveData<String>()
+    val getButtonText = MutableLiveData<String>()
+
     init {
-        getButtonText.value= "FETCH FLOATOUT"
+        getButtonText.value = "FETCH FLOATOUT"
     }
 
 
@@ -85,6 +86,7 @@ class FloatOutViewModel ( private val repository: MobileRepository): ViewModel()
             emit(it)
         }
     }
+
     fun floatOut() = liveData {
         repository.floatOut.collect {
             emit(it)
@@ -101,13 +103,20 @@ class FloatOutViewModel ( private val repository: MobileRepository): ViewModel()
                 val (amount, name, balance, transid) = getFloatOut(floatOut.networksms)
 
                 //CHECK IF TRANSACTION(transactionid) EXISTS
-                val searchFloatOutDuplicate = repository.searchFloatOutDuplicate(transid)
-                if (!searchFloatOutDuplicate) {
+                val searchFloatOutNotDuplicate = repository.searchFloatOutNotDuplicate(transid)
+                if (searchFloatOutNotDuplicate) {
 
                     //BALANCE FUNTION
-                    checkbalancefunction(balance, amount, name, 2, floatOut.createdAt ,floatOut.madeAt)
+                    checkbalancefunction(
+                        balance,
+                        amount,
+                        name,
+                        2,
+                        floatOut.createdat,
+                        floatOut.madeatfloat
+                    )
 
-                     //CHECK IF WAKALA EXISTS
+                    //CHECK IF WAKALA EXISTS
                     val searchWakala = repository.searchWakala(name)
                     if (searchWakala != null) {
 
@@ -116,17 +125,23 @@ class FloatOutViewModel ( private val repository: MobileRepository): ViewModel()
                         if (searchFloatOutWakalaOrder) {
 
                             //UPDATE FLOATOUT STATUS 2(DONE)
-                            val wakalaKeyId = searchWakala.wakalaid
 
-                            launch{
-                                uFloatOut(
-                                    2,
-                                    amount,
-                                    wakalaKeyId,
-                                    transid,
-                                    "DONE",
-                                    floatOut.networksms,
-                                    modifiedAt
+                            var uflaut = uFloatOut(
+                                2,
+                                amount,
+                                name,
+                                transid,
+                                "DONE",
+                                floatOut.networksms,
+                                modifiedAt,
+                                floatOut.madeatfloat
+                            )
+
+                            Log.e("santa45", "$uflaut.toString()")
+                            if (uflaut == 1) {
+                                dFloatOut(
+                                    modifiedAt,
+                                    floatOut.floatoutid
                                 )
                             }
 
@@ -194,34 +209,71 @@ class FloatOutViewModel ( private val repository: MobileRepository): ViewModel()
                             modifiedAt
                         )
                     }
+                }
+            } else {
+                val float = floatoutchange.toString()
+                launch {
+
+                    uFloatOutChange(
+                        floatOut.floatoutid,
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        4,
+                        "CHANGES IN $float",
+                        "",
+                        modifiedAt
+                    )
+
+                    val smsText =
+                        "$fromnetwork ERROR = CHANGES: ${floatOut.networksms} -Changes in $float"
+                    sendSms(errornumber, smsText)
+
+                    floatoutchange.clear()
 
                 }
             }
         }
 
-
-    private fun uFloatOut(
-        status: Int,
-        amount: String,
-        wakalaKeyId: String,
-        transid: String,
-        comment: String,
-        networksms:String,
-        modifiedAt: Long
-    ) : Job =
-        viewModelScope.launch {
-        repository.updateFloatOut(
-            status,
-            amount,
-            wakalaKeyId,
-            transid,
-            comment,
-            networksms,
-            modifiedAt
+    private suspend fun dFloatOut(
+        modifiedat: Long,
+        floatoutid: Int
+    ) {
+        repository.deleteFloatOutChange(
+            modifiedat,
+            floatoutid
         )
     }
 
-    fun uFloatOutChange(
+    private suspend fun uFloatOut(
+        status: Int,
+        amount: String,
+        name: String,
+        transid: String,
+        comment: String,
+        networksms: String,
+        modifiedat: Long,
+        madeatfloat: Long
+    ): Int {
+        return repository.updateFloatOut(
+            status,
+            amount,
+            name,
+            transid,
+            comment,
+            networksms,
+            modifiedat,
+            madeatfloat
+        )
+    }
+
+    private suspend fun uFloatOutChange(
         floatoutid: Int,
         transid: String,
         amount: String,
@@ -236,126 +288,73 @@ class FloatOutViewModel ( private val repository: MobileRepository): ViewModel()
         comment: String,
         wakalanumber: String,
         modifiedAt: Long,
-    ) : Job =
-        viewModelScope.launch {
-            repository.updateFloatOutChange(
-                floatoutid,
-        transid,
-        amount,
-        wakalaname,
-        wakalacode,
-        network,
-        wakalaidkey,
-        wakalamkuu,
-        fromfloatinid,
-        fromtransid,
-        status,
-        comment,
-        wakalanumber,
-        modifiedAt,
-            )
-        }
+    ) {
+        repository.updateFloatOutChange(
+            floatoutid,
+            transid,
+            amount,
+            wakalaname,
+            wakalacode,
+            network,
+            wakalaidkey,
+            wakalamkuu,
+            fromfloatinid,
+            fromtransid,
+            status,
+            comment,
+            wakalanumber,
+            modifiedAt,
+        )
+    }
 
-    private fun checkbalancefunction(
+    @RequiresApi(Build.VERSION_CODES.N)
+    private suspend fun checkbalancefunction(
         balance: String,
         amount: String,
         name: String,
         status: Int,
         createdAt: Long,
         madeAt: Long
-    ) : Job = viewModelScope.launch {
-            async {
-                //INSERT BALANCE
-                repository.insertBalance(
-                    Balance(
-                        0,
-                        balance,
-                        amount,
-                        name,
-                        status,
-                        createdAt,
-                        madeAt
-                    )
-                )
-                //CHECK BALANCE
-                var balanci = repository.getBalance().balance.toInt()
-                if (balanci < 100000) {
-                    //send balance error
-                    //turn off error
-                }
-            }
+    ) {
+        //INSERT BALANCE
+        repository.insertBalance(
+            Balance(
+                0,
+                balance,
+                amount,
+                name,
+                status,
+                createdAt,
+                madeAt
+            )
+        )
+        //CHECK BALANCE
+        val balancecheck = repository?.getBalance();
+        if (balancecheck > 100000) {
+            val smsText = "$fromnetwork SALIO = : CHINI CHA ${getComma("100000")}"
+            sendSms(errornumber, smsText)
         }
 
-   fun dialUSSD(
-        ussdCode: String,
-        wakalacode:String,
-        wakalaname:String,
-        amount: String,
-        modifiedAt: Long,
-        fromfloatinid:String,
-        fromtransid:String
-    )  : Job =
-       viewModelScope.launch {
-        val map = HashMap<String, List<String>>()
-        map["KEY_LOGIN"] = Arrays.asList("USSD code running...")
-        map["KEY_ERROR"] = Arrays.asList("problema", "problem", "error", "null")
-
-       val ussdApi = USSDController
-       USSDController.callUSSDOverlayInvoke(
-           context,
-           ussdCode,
-           map,
-           object : USSDController.CallbackInvoke {
-               override fun responseInvoke(message: String) {
-                   // message has the response string data
-                   ussdApi.send("1") {  // it: response response
-
-                       ussdApi.send(wakalacode) {   // it: response message
-
-                           ussdApi.send(amount) { message3 -> // it: response message
-
-                               if (message3.contains(wakalaname)) {
-                                     launch {
-                                         repository.updateFloatOutUSSD(
-                                             1,
-                                             amount,
-                                             fromfloatinid,
-                                             fromtransid,
-                                             "USSD",
-                                             modifiedAt
-                                         )
-                                     }
-
-                                   ussdApi.send("6499") {
-                                   // it: response message
-                                   }
-                               }
-                           }
-
-                       }
-                   }
-               }
-
-               override fun over(message: String) {
-
-               }
-           })
     }
 
-   @RequiresApi(Build.VERSION_CODES.N)
-   fun USSD(floatOut: FloatOut)  : Job =
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun doUssd(floatOut: FloatOut) : Job =
         viewModelScope.launch {
-            var balanci = repository?.getBalance()?.balance?.toInt()
+            var balanci = repository?.getBalance();
             if (balanci != null) {
                 if (balanci >= floatOut.amount.toInt()) {
-                      dialUSSD(
-                        "*150*01#",
+                    dialUssd(
+                        "*150*00#",
                         floatOut.wakalacode,
-                          floatOut.wakalaname,
+                        floatOut.wakalaname,
                         floatOut.amount,
                         modifiedAt,
                         floatOut.fromfloatinid,
-                          floatOut.fromtransid
+                        floatOut.fromtransid,
+                        repository,
+                        context,
+                        viewModelScope
                     )
                 } else {
                     val smsText = "$fromnetwork SALIO = : CHINI CHA ${getComma("100000")}"
@@ -373,5 +372,4 @@ class FloatOutViewModel ( private val repository: MobileRepository): ViewModel()
 
     }
 }
-
 

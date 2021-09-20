@@ -30,8 +30,8 @@ import com.example.airtelmanewakala.viewmodel.FloatInViewModelFactory
 import com.google.android.material.chip.Chip
 
 class Balance: Fragment() {
-      private lateinit var binding: FragmentBalanceBinding
-      private  lateinit var balanceViewModel: BalanceViewModel
+    private lateinit var binding: FragmentBalanceBinding
+    private  lateinit var balanceViewModel: BalanceViewModel
     private lateinit var adapter:RecyclerViewBalance
     //    private lateinit var wakalaMkuuViewModel: WakalaMkuuViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,8 +74,8 @@ class Balance: Fragment() {
     private val balanceReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         @RequiresApi(Build.VERSION_CODES.N)
         override fun onReceive(context: Context, intent: Intent) {
-                return displayTransactionList()
-            }
+            return displayTransactionList()
+        }
     }
 
     override fun onDestroyView() {

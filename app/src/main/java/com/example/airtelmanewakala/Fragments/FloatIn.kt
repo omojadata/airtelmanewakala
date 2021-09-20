@@ -243,6 +243,7 @@ class FloatIn : Fragment() {
                 //send text to wakala for large order/lateorder
             }
             3 -> {
+                getFloatIn(floatIn.networksms)
                 Toast.makeText(context, "This three ${floatIn.comment}", Toast.LENGTH_SHORT).show()
             }
             4 -> {
@@ -274,28 +275,25 @@ class FloatIn : Fragment() {
         if (floatIn.status == 0) {
             //pending
             val amounting = getComma(floatIn.amount)
-            val timeM = getTime(floatIn.madeAt)
-            val timeC = getTime(floatIn.createdAt)
             val sendSms =
-                "Muamala No: ${floatIn.transid}, Kiasi: Tsh $amounting, Muda uliotuma: $timeM, Muda ulioingia: $timeC, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Mpesa au Halopesa"
+                "Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Airtelmoney au Halopesa"
             sendSms(floatIn.wakalacontact, sendSms)
         } else if (floatIn.status == 2 ) {
             //large
             val amounting = getComma(floatIn.amount)
             val maxamount = getComma(floatIn.maxamount)
-            val timeM = getTime(floatIn.madeAt)
-            val timeC = getTime(floatIn.createdAt)
-                if(floatIn.comment == "LARGE/WAIT"){
-                    floatInViewModel.uFloatInLarge(floatIn.floatinid,"LARGE",modifiedAt)
 
-                    val sendSms =
-                        "Kiwango chako cha juu ni Tsh $maxamount. Muamala No: ${floatIn.transid}, Kiasi: Tsh $amounting, Muda uliotuma: $timeM, Muda ulioingia: $timeC, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Mpesa au Halopesa."
-                    sendSms(floatIn.wakalacontact, sendSms)
-                }else if(floatIn.comment=="LARGE"){
-                    val sendSms =
-                        "Kiwango chako cha juu ni Tsh $maxamount. Muamala No: ${floatIn.transid}, Kiasi: Tsh $amounting, Muda uliotuma: $timeM, Muda ulioingia: $timeC, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Mpesa au Halopesa."
-                    sendSms(floatIn.wakalacontact, sendSms)
-                }
+            if(floatIn.comment == "LARGE/WAIT"){
+                floatInViewModel.uFloatInLarge(floatIn.floatinid,"LARGE",modifiedAt)
+
+                val sendSms =
+                    "Kiwango chako cha juu ni Tsh $maxamount. Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Airtelmoney au Halopesa."
+                sendSms(floatIn.wakalacontact, sendSms)
+            }else if(floatIn.comment=="LARGE"){
+                val sendSms =
+                    "Kiwango chako cha juu ni Tsh $maxamount.Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Airtelmoney au Halopesa."
+                sendSms(floatIn.wakalacontact, sendSms)
+            }
 
         }
     }
@@ -340,9 +338,11 @@ class FloatIn : Fragment() {
                     "towakalaname",
                     "wakalacontact",
                     "networksms",
-                    "createdAt",
-                    "modifiedAt",
-                    "madeAt"
+                    "createdat",
+                    "modifiedat",
+                    "madeatfloat",
+                    "madeatorder",
+                    "deletestatus"
                 )
             )
 
@@ -364,9 +364,11 @@ class FloatIn : Fragment() {
                         x.towakalaname,
                         x.wakalacontact,
                         x.networksms,
-                        x.createdAt,
-                        x.modifiedAt,
-                        x.madeAt
+                        x.createdat,
+                        x.modifiedat,
+                        x.madeatfloat,
+                        x.madeatorder,
+                        x.deletestatus
                     )
                 )
             }
