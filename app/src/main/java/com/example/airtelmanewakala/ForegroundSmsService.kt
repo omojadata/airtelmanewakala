@@ -558,7 +558,7 @@ class ForegroundSmsService : Service() {
                                         //DAILL USSD
 //
                                         dialUssd(
-                                            "*150*00#",
+                                            "*150*60#",
                                             wakalacode,
                                             wakalaname,
                                             amount,

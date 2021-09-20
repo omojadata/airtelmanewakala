@@ -345,7 +345,7 @@ class FloatOutViewModel(private val repository: MobileRepository) : ViewModel(),
             if (balanci != null) {
                 if (balanci >= floatOut.amount.toInt()) {
                     dialUssd(
-                        "*150*00#",
+                        "*150*60#",
                         floatOut.wakalacode,
                         floatOut.wakalaname,
                         floatOut.amount,

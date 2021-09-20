@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import com.example.airtelmanewakala.db.MobileRepository
 import com.example.airtelmanewakala.db.MoblieDatabase
+import com.romellfudi.ussdlibrary.USSDApi
 import com.romellfudi.ussdlibrary.USSDController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -41,7 +42,8 @@ fun generateFile(context: Context?, fileName: String): File? {
 
 fun goToFileIntent(context: Context?, file: File): Intent {
     val intent = Intent(Intent.ACTION_VIEW)
-    val contentUri = context?.let { FileProvider.getUriForFile(it, "${context.packageName}.fileprovider", file) }
+    val contentUri =
+        context?.let { FileProvider.getUriForFile(it, "${context.packageName}.fileprovider", file) }
     val mimeType = contentUri?.let { context?.contentResolver.getType(it) }
     intent.setDataAndType(contentUri, mimeType)
     intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
@@ -60,7 +62,6 @@ fun sendSms(number: String, smstext: String) {
         null
     )
 }
-
 
 
 fun filterBody(str: String, n: Int): String {
@@ -85,19 +86,19 @@ fun getComma(i: String): String {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun getDate(created:Long): String? {
+fun getDate(created: Long): String? {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     val instant = Instant.ofEpochMilli(created.toLong())
     val date = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
     return formatter.format(date).toString()
 }
 
-fun isTodayDate(x:Long) : Boolean {
+fun isTodayDate(x: Long): Boolean {
     return DateUtils.isToday(x)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun getTime(created:Long): String? {
+fun getTime(created: Long): String? {
     val formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     val instant = Instant.ofEpochMilli(created.toLong())
     val date = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
@@ -116,9 +117,9 @@ fun filter(str: String): String {
     return words.substring(0, words.length - 2)
 }
 
-var floatinwords = arrayOf("Umepokea,","kutoka")
+var floatinwords = arrayOf("Umepokea,", "kutoka")
 
-var floatoutwords = arrayOf("Umetuma","kwenda")
+var floatoutwords = arrayOf("Umetuma", "kwenda")
 
 fun containsWords(inputString: String, items: Array<String>): Boolean {
     var found = true
@@ -132,12 +133,12 @@ fun containsWords(inputString: String, items: Array<String>): Boolean {
 }
 
 
-fun checkFloatInWords(str: String):Boolean{
-    return containsWords(str,floatinwords)
+fun checkFloatInWords(str: String): Boolean {
+    return containsWords(str, floatinwords)
 }
 
-fun checkFloatOutWords(str: String):Boolean{
-    return containsWords(str,floatoutwords)
+fun checkFloatOutWords(str: String): Boolean {
+    return containsWords(str, floatoutwords)
 }
 
 
@@ -260,7 +261,6 @@ fun checkFloatOut(str: String): Boolean {
 }
 
 
-
 fun getFloatOut(str: String): Array<String> {
 
     //amount
@@ -313,40 +313,30 @@ suspend fun dialUssd(
         object : USSDController.CallbackInvoke {
             override fun responseInvoke(message: String) {
                 // message has the response string data
-                ussdchange.append("*150*00#")
-                ussdApi.send("3") {
-                    ussdchange.append(" 3")
-                    ussdApi.send("1") {
-                        ussdchange.append(" 1")
-                        ussdApi.send(wakalacode) {
-                            ussdchange.append(" code")
-                            ussdApi.send(amount) {
-                                ussdchange.append(" amount")
-                                ussdApi.send("MAN") {
-                                    ussdchange.append(" muhudumu")
-                                    ussdApi.send("0007") { message3 ->
-                                        ussdchange.append(" PIN")
-                                        if (message3.contains(wakalaname)) {
-                                            ussdchange.append(" Accept")
-                                            ussdApi.send("1") {
-                                                Log.e("USSDTAG1", it)
-                                            }
-                                        } else {
-                                            ussdchange.clear()
-                                            ussdApi.send("2") {
-                                                Log.e("USSDTAG1", it)
-                                            }
-                                        }
-                                    }
+                ussdchange.append("*150*60#")
+                ussdApi.send("1") {
+                    ussdchange.append(" 1")
+                    ussdApi.send(wakalacode) {
+                        ussdchange.append(" code")
+                        ussdApi.send(amount) { message3 ->
+                            ussdchange.append(" amount")
+                            if (message3.contains(wakalaname)) {
+                                ussdchange.append(" Accept")
+                                ussdApi.send("0007") {
+
                                 }
+                            } else {
+                                ussdApi.cancel()
+                                ussdchange.clear()
                             }
                         }
+
                     }
                 }
             }
 
             override fun over(message: String) {
-                if (message.contains("Ombi lako limetumwa")) {
+                if (message.contains("Ndugu mteja ombi lako linashughulikiwa.")) {
                     Log.e("USSDTAG2", ussdchange.toString())
                     if (ussdchange.toString().contains("Accept")) {
                         Log.e("USSDTAG22", ussdchange.toString())
@@ -382,10 +372,6 @@ suspend fun dialUssd(
             }
         })
 }
-
-
-
-
 
 
 fun getFloatOuta(str: String): Array<String> {
