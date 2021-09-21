@@ -207,7 +207,7 @@ interface MobileDAO {
     @Query("SELECT * FROM wakala_table  WHERE tigoname LIKE '%'||:text||'%' OR airtelname LIKE '%'||:text||'%' OR vodaname LIKE '%'||:text||'%' OR haloname LIKE '%'||:text||'%' OR tigopesa LIKE '%'||:text||'%' OR airtelmoney LIKE '%'||:text||'%' OR halopesa LIKE '%'||:text||'%' OR mpesa LIKE '%'||:text||'%' OR contact LIKE '%'||:text||'%'")
     fun searchViewWakala(text: String): Flow<List<Wakala>>
 
-    @Query("SELECT * FROM wakala_table WHERE vodaname = :columnvalue AND status = 1 LIMIT 1")
+    @Query("SELECT * FROM wakala_table WHERE airtelname = :columnvalue AND status = 1 LIMIT 1")
     suspend fun searchWakala(columnvalue: String): Wakala
 
     @Query("SELECT * FROM wakala_table WHERE contact = :columnvalue AND status = 1 LIMIT 1")

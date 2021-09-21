@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 var fromnetwork = "Airtelmoney"
-const val mtandao = "AirtelMoney"
+const val mtandao = "+255714363727"
 const val errornumber = "+255683071757"
 //val contactnumber = "+255714363727"
 var floatinchange = StringBuilder()
@@ -193,24 +193,26 @@ fun getFloatIn(str: String): Array<String> {
     //amount
     val amountdata = filterBody(str, 2)
     val amount = filterMoney(amountdata)
-
+    Log.e("floatinchecl", amount)
     //name
     val namedata = str.substringAfter("kutoka ")
     val namedata2 = namedata.substring(9)
-    val namedata3 = namedata2.substringBefore(" Salio")
-    val nameRegex = Regex("[^A-Za-z0-9 _]")
+    val namedata3 = namedata2.substringBefore(". Salio")
+//    val nameRegex = Regex("^[a-zA-Z0-9 ]*$")
+    val nameRegex = Regex("[^A-Za-z0-9 ]")
     val name = nameRegex.replace(namedata3, "").trim()
 
+    Log.e("floatinchecl", name)
     //balance
     val balancedata = str.substringAfter("jipya ")
     val balancedata2 = balancedata.substringBefore(".Muamala")
     val balance = filterMoney(balancedata2)
-
+    Log.e("floatinchecl",balance)
     //transid
     val transiddata = str.substringAfter("Muamala")
     val transiddata2 = transiddata.replace("\\s+".toRegex(), "")
     val transid = transiddata2.removeRange(0, 3)
-
+    Log.e("floatinchecl",transid)
     return arrayOf(amount, name, balance, transid)
 }
 
