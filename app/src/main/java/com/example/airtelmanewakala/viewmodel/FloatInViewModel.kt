@@ -125,8 +125,8 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
 
                         val wakalaKeyId = searchWakala.wakalaid
                         val wakalacontact = searchWakala.contact
-                        val fromwakalaname = searchWakala.vodaname
-                        val fromwakalacode = searchWakala.mpesa
+                        val fromwakalaname = searchWakala.airtelname
+                        val fromwakalacode = searchWakala.airtelmoney
 
                         val currentamount = amount.toInt()
 
@@ -162,7 +162,7 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
                                 val timeC = getTime(floatIn.createdat)
 
                                 var smsText =
-                                    "Muamala No: ${transid}, Kiasi: Tsh $amounting, Muda uliotuma: $timeM, Muda ulioingia: $timeC, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Mpesa au Halopesa"
+                                    "Muamala No: ${transid}, Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Tigopesa, Airtelmoney au Halopesa"
                                 sendSms(wakalacontact, smsText)
 
                             } else {

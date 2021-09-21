@@ -216,14 +216,14 @@ interface MobileDAO {
     @Query("SELECT * FROM wakala_table WHERE  tigopesa = :columnvalue AND wakalaid=:wakalaidkey AND status = 1 LIMIT 1")
     suspend fun searchWakalaTigo(columnvalue: String, wakalaidkey: String): Wakala
 
-    @Query("SELECT * FROM wakala_table WHERE airtelmoney = :columnvalue AND wakalaid=:wakalaidkey AND status = 1 LIMIT 1")
-    suspend fun searchWakalaAirtel(columnvalue: String, wakalaidkey: String): Wakala
+    @Query("SELECT * FROM wakala_table WHERE airtelname=:columnname AND airtelmoney = :columnvalue AND wakalaid=:wakalaidkey AND status = 1 LIMIT 1")
+    suspend fun searchWakalaAirtel(columnname: String,columnvalue: String, wakalaidkey: String): Wakala
 
     @Query("SELECT * FROM wakala_table WHERE vodaname = :columnname AND mpesa = :columnvalue AND wakalaid=:wakalaidkey AND status = 1 LIMIT 1")
     suspend fun searchWakalaVoda(columnname: String,columnvalue: String, wakalaidkey: String): Wakala
 
-    @Query("SELECT * FROM wakala_table WHERE halopesa = :columnvalue AND wakalaid=:wakalaidkey AND status = 1 LIMIT 1")
-    suspend fun searchWakalaHalotel(columnvalue: String, wakalaidkey: String): Wakala
+    @Query("SELECT * FROM wakala_table WHERE haloname=:columnname AND halopesa = :columnvalue AND wakalaid=:wakalaidkey AND status = 1 LIMIT 1")
+    suspend fun searchWakalaHalotel(columnname: String,columnvalue: String, wakalaidkey: String): Wakala
 
     @Query("SELECT * FROM wakala_table WHERE tpesa = :columnvalue AND wakalaid=:wakalaidkey AND status = 1 LIMIT 1")
     suspend fun searchWakalaTtcl(columnvalue: String, wakalaidkey: String): Wakala

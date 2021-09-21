@@ -56,9 +56,6 @@ class FloatOut : Fragment() {
         binding.lifecycleOwner = this
 
 
-
-
-
 //        initRecyclerView()
         Log.d("xyxv", "LifecycleFragment: onCreateView() called")
         binding.chipGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -160,31 +157,36 @@ class FloatOut : Fragment() {
         when (status) {
             0 -> {
                 Log.i("xyxv", "zero")
-                adapter = RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
+                adapter =
+                    RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
                 binding.floatoutRecyclerView.adapter = adapter
                 displayFilterList(status)
             }
             1 -> {
                 Log.i("xyxv", "one")
-                adapter = RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
+                adapter =
+                    RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
                 binding.floatoutRecyclerView.adapter = adapter
                 displayFilterList(status)
             }
             2 -> {
                 Log.i("xyxv", "two")
-                adapter = RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
+                adapter =
+                    RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
                 binding.floatoutRecyclerView.adapter = adapter
                 displayFilterList(status)
             }
             3 -> {
                 Log.i("xyxv", "three")
-                adapter = RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
+                adapter =
+                    RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
                 binding.floatoutRecyclerView.adapter = adapter
                 displayFilterList(status)
             }
             4 -> {
                 Log.i("xyxv", "four")
-                adapter = RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
+                adapter =
+                    RecyclerViewFloatOut { selectedItem: FloatOut -> allClicked(selectedItem) }
                 binding.floatoutRecyclerView.adapter = adapter
                 displayFilterList(status)
             }
@@ -269,7 +271,7 @@ class FloatOut : Fragment() {
     private fun allClicked(floatOut: FloatOut) {
         if (floatOut.status == 0) {
             floatOutViewModel.doUssd(floatOut)
-            Toast.makeText(context, "Inatuma pesa ${floatOut.comment}", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "Inatuma pesa ${floatOut.comment}", Toast.LENGTH_SHORT).show()
             //send USSD
         } else if (floatOut.status == 1) {
             //sendUSSD
@@ -284,8 +286,9 @@ class FloatOut : Fragment() {
                 ).show()
             }
 
-        }else if (floatOut.status == 4) {
-            Toast.makeText(context, "Changes from ${floatOut.floatoutid}", Toast.LENGTH_SHORT).show()
+        } else if (floatOut.status == 4) {
+            Toast.makeText(context, "Changes from ${floatOut.floatoutid}", Toast.LENGTH_SHORT)
+                .show()
             updateWakala(floatOut)
         }
     }
@@ -299,7 +302,7 @@ class FloatOut : Fragment() {
     }
 
     fun exportDatabaseToCSVFile() {
-        val csvFile =  generateFile(context, "FloatOut.csv")
+        val csvFile = generateFile(context, "FloatOut.csv")
         if (csvFile != null) {
             exportMoviesWithDirectorsToCSVFile(csvFile)
             val intent = goToFileIntent(context, csvFile)
@@ -312,13 +315,58 @@ class FloatOut : Fragment() {
     fun exportMoviesWithDirectorsToCSVFile(csvFile: File) {
         csvWriter().open(csvFile, append = false) {
             // Header
-            writeRow(listOf("floatoutid","transid","amount","wakalaname","wakalacode","network","wakalaidkey","wakalamkuu","fromfloatinid","fromtransid","status","comment","networksms","wakalanumber","createdAt","modifiedat","madeatorder","madeatfloat","deletestatus"))
+            writeRow(
+                listOf(
+                    "floatoutid",
+                    "transid",
+                    "amount",
+                    "wakalaname",
+                    "wakalacode",
+                    "network",
+                    "wakalaidkey",
+                    "wakalamkuu",
+                    "fromfloatinid",
+                    "fromtransid",
+                    "status",
+                    "comment",
+                    "networksms",
+                    "wakalanumber",
+                    "createdAt",
+                    "modifiedat",
+                    "madeatorder",
+                    "madeatfloat",
+                    "deletestatus"
+                )
+            )
 
-            adapter.floatOutList.forEachIndexed { index,x ->
-                writeRow(listOf(x.floatoutid,x.transid,x.amount,x.wakalaname,x.wakalacode,x.network,x.wakalaidkey,x.wakalamkuu,x.fromfloatinid,x.fromtransid,x.status,x.comment,x.networksms,x.wakalanumber,x.createdat,x.modifiedat,x.madeatorder,x.madeatfloat,x.deletestatus))
+            adapter.floatOutList.forEachIndexed { index, x ->
+                writeRow(
+                    listOf(
+                        x.floatoutid,
+                        x.transid,
+                        x.amount,
+                        x.wakalaname,
+                        x.wakalacode,
+                        x.network,
+                        x.wakalaidkey,
+                        x.wakalamkuu,
+                        x.fromfloatinid,
+                        x.fromtransid,
+                        x.status,
+                        x.comment,
+                        x.networksms,
+                        x.wakalanumber,
+                        x.createdat,
+                        x.modifiedat,
+                        x.madeatorder,
+                        x.madeatfloat,
+                        x.deletestatus
+                    )
+                )
             }
         }
     }
+
     override fun onDestroyView() {
         Log.d("xyxv", "LifecycleFragment: onDestroyView() called")
         super.onDestroyView()

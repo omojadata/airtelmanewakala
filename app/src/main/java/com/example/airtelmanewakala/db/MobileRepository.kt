@@ -303,16 +303,16 @@ class MobileRepository(private val dao: MobileDAO) {
         return dao.searchWakalaVoda(columnname,columnvalue, wakalaidkey)
     }
 
-    suspend fun searchWakalaAirtel(columnvalue: String, wakalaidkey: String): Wakala {
-        return dao.searchWakalaAirtel(columnvalue, wakalaidkey)
+    suspend fun searchWakalaAirtel(columnname: String,columnvalue: String, wakalaidkey: String): Wakala {
+        return dao.searchWakalaAirtel(columnname,columnvalue, wakalaidkey)
     }
 
     suspend fun searchWakalaTtcl(columnvalue: String, wakalaidkey: String): Wakala {
         return dao.searchWakalaTtcl(columnvalue, wakalaidkey)
     }
 
-    suspend fun searchWakalaHalotel(columnvalue: String, wakalaidkey: String): Wakala {
-        return dao.searchWakalaHalotel(columnvalue, wakalaidkey)
+    suspend fun searchWakalaHalotel(columnname: String,columnvalue: String, wakalaidkey: String): Wakala {
+        return dao.searchWakalaHalotel(columnname,columnvalue, wakalaidkey)
     }
 
     suspend fun updateWakala(tigopesa: String, wakalaid: String): Int {
