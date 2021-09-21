@@ -23,7 +23,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-var fromnetwork = "Airtelmoney"
+var fromnetwork = "Airtel"
 const val mtandao = "+255714363727"
 const val errornumber = "+255683071757"
 //val contactnumber = "+255714363727"
@@ -65,7 +65,13 @@ fun sendSms(number: String, smstext: String) {
 
 
 fun filterBody(str: String, n: Int): String {
-    return str.split(" ")[n - 1]
+    var strr= str.split(" ")
+    return if(strr.isNotEmpty()){
+        strr[n-1]
+    }else{
+        ""
+    }
+
 }
 
 fun filterNumber(str: String): String {
