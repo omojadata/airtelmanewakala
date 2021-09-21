@@ -15,6 +15,7 @@ import com.example.airtelmanewakala.Adapter.ViewPageAdapter
 import com.example.airtelmanewakala.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.romellfudi.ussdlibrary.USSDController
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -66,6 +67,8 @@ class MainActivity : AppCompatActivity() {
                )
                 ,111)
         }
+        USSDController.verifyAccesibilityAccess(this)
+        USSDController.verifyOverLay(this)
 
         binding.autoLay.setOnCheckedChangeListener { buttonView, isChecked ->
             GlobalScope.launch {
