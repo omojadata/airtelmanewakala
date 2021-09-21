@@ -117,7 +117,7 @@ fun filter(str: String): String {
     return words.substring(0, words.length - 2)
 }
 
-var floatinwords = arrayOf("Umepokea,", "kutoka")
+var floatinwords = arrayOf("Umepokea", "kutoka")
 
 var floatoutwords = arrayOf("Umetuma", "kwenda")
 
