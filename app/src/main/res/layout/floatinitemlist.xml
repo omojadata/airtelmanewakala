@@ -25,7 +25,6 @@
                     android:paddingTop="1dp"
                     android:paddingEnd="16dp"
                     android:maxLines="4"
-                    android:text="TIGOPESA"
                     android:textSize="15dp"
                     android:textAppearance="?attr/textAppearanceSubtitle1"
                     android:textColor="#000000"/>

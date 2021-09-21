@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 var fromnetwork = "Airtel"
-const val mtandao = "+255714363727"
+const val mtandao = "AirtelMoney"
 const val errornumber = "+255683071757"
 //val contactnumber = "+255714363727"
 var floatinchange = StringBuilder()
@@ -71,7 +71,6 @@ fun filterBody(str: String, n: Int): String {
     }else{
         ""
     }
-
 }
 
 fun filterNumber(str: String): String {
