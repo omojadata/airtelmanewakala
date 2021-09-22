@@ -92,7 +92,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/floatin_recyclerView"
-                android:layout_margin="5dp"
+                android:layout_margin="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="horizontal"

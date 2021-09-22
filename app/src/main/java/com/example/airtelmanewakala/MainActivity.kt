@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         USSDController.verifyAccesibilityAccess(this)
         USSDController.verifyOverLay(this)
 
+
         binding.autoLay.setOnCheckedChangeListener { buttonView, isChecked ->
             GlobalScope.launch {
                 if (isChecked){

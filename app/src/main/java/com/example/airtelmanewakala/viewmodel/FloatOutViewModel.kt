@@ -341,18 +341,20 @@ class FloatOutViewModel(private val repository: MobileRepository) : ViewModel(),
             var balanci = repository?.getBalance();
             if (balanci != null) {
                 if (balanci >= floatOut.amount.toInt()) {
-                    dialUssd(
-                        "*150*60#",
-                        floatOut.wakalacode,
-                        floatOut.wakalaname,
-                        floatOut.amount,
-                        modifiedAt,
-                        floatOut.fromfloatinid,
-                        floatOut.fromtransid,
-                        repository,
-                        context,
-                        viewModelScope
-                    )
+                    if(USSDController.verifyAccesibilityAccess(context) &&  USSDController.verifyOverLay(context) ){
+                        dialUssd(
+                            "*150*60#",
+                            floatOut.wakalacode,
+                            floatOut.wakalaname,
+                            floatOut.amount,
+                            modifiedAt,
+                            floatOut.fromfloatinid,
+                            floatOut.fromtransid,
+                            repository,
+                            context,
+                            viewModelScope
+                        )
+                    }
                 } else {
                     val smsText = "$fromnetwork SALIO = : CHINI CHA ${getComma("100000")}"
                     sendSms(errornumber, smsText)
