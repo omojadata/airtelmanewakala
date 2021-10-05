@@ -165,9 +165,6 @@ interface MobileDAO {
     @Query("SELECT * FROM wakalamkuu_table WHERE  status = 1 LIMIT 1")
     suspend fun getWakalaMkuu(): WakalaMkuu
 
-//    @Query("SELECT * FROM wakalamkuu_table WHERE :column = :columnvalue AND status = 1 LIMIT 1")
-//    suspend fun searchWakalaMkuu(column: String, columnvalue: String): WakalaMkuu
-
     @Query("SELECT * FROM wakalamkuu_table WHERE tigophone = :columnvalue AND status = 1 LIMIT 1")
     suspend fun searchWakalaMkuuTigo(columnvalue: String): WakalaMkuu
 
@@ -188,15 +185,9 @@ interface MobileDAO {
 
 
     //Wakala
-//    @Query("SELECT * FROM wakala_table")
-//    fun Wakala():LiveData<List<Wakala>>
 
     @Query("SELECT * FROM wakala_table")
     fun wakala(): Flow<List<Wakala>>
-
-//    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-//    @Query("SELECT * FROM wakala_table")
-//     fun wakalaCSV(): Cursor
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWakala(wakala: List<Wakala>)
