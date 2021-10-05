@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 var fromnetwork = "Airtel"
-const val mtandao = "AirtelMoney"
+//const val mtandao = "AirtelMoney"
 const val errornumber = "+255683071757"
 //val contactnumber = "+255714363727"
 var floatinchange = StringBuilder()
@@ -146,7 +146,7 @@ fun checkFloatOutWords(str: String): Boolean {
     return containsWords(str, floatoutwords)
 }
 
-
+//Umepokea Tsh100,000.00 kutoka 787193129,AUDAX OSCAR MUJUNI. Salio jipya Tsh955,000.00.Muamala No: PP211005.1314.B61281
 fun checkFloatIn(str: String): Boolean {
 
     //amount
@@ -198,12 +198,11 @@ fun getFloatIn(str: String): Array<String> {
     //amount
     val amountdata = filterBody(str, 2)
     val amount = filterMoney(amountdata)
-    Log.e("floatinchecl", amount)
+
     //name
     val namedata = str.substringAfter("kutoka ")
     val namedata2 = namedata.substring(9)
     val namedata3 = namedata2.substringBefore(". Salio")
-//    val nameRegex = Regex("^[a-zA-Z0-9 ]*$")
     val nameRegex = Regex("[^A-Za-z0-9 ]")
     val name = nameRegex.replace(namedata3, "").trim()
 
@@ -211,16 +210,16 @@ fun getFloatIn(str: String): Array<String> {
     val balancedata = str.substringAfter("jipya ")
     val balancedata2 = balancedata.substringBefore(".Muamala")
     val balance = filterMoney(balancedata2)
-    Log.e("floatinchecl",balance)
+
     //transid
     val transiddata = str.substringAfter("Muamala")
     val transiddata2 = transiddata.replace("\\s+".toRegex(), "")
     val transid = transiddata2.removeRange(0, 3)
-    Log.e("floatinchecl",transid)
+
     return arrayOf(amount, name, balance, transid)
 }
 
-
+//Umetuma 500,000.00 Tsh kwenda 682527299,THERESIA AKWILINI SHIRIMA.Kodi Tsh 0.00). Salio Jipya Tsh 855,000.00Tsh .Muamala No. PP211005.1302.K59987.Tunakujali,Muamala Huu Ni BURE!
 fun checkFloatOut(str: String): Boolean {
     //amount
     val amount = filterBody(str, 2)
@@ -379,29 +378,3 @@ suspend fun dialUssd(
         })
 }
 
-
-fun getFloatOuta(str: String): Array<String> {
-    //amount
-    val amountdata = filterBody(str, 2)
-    val amount = filterMoney(amountdata)
-
-    //name
-    val namedata = str.substringAfter("kwenda ")
-    val namedata2 = namedata.substring(9)
-    val namedata3 = namedata2.substringBefore("Makato")
-    val nameRegex = Regex("[^A-Za-z0-9 _]")
-    val name = nameRegex.replace(namedata3, "").trim()
-
-    //balance
-    val balancedata = str.substringAfter("Salio Jipya Tsh ")
-    val balancedata2 = balancedata.substringBefore(".Muamala")
-    val balance = filterMoney(balancedata2)
-
-    //transid
-    val transiddata = str.substringAfter("Muamala")
-    val transiddata3 = transiddata.replace("\\s+".toRegex(), "")
-    val transid = transiddata3.removeRange(0, 3)
-
-
-    return arrayOf(amount, name, balance, transid)
-}
