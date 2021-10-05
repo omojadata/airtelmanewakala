@@ -207,7 +207,6 @@ fun getFloatIn(str: String): Array<String> {
     val nameRegex = Regex("[^A-Za-z0-9 ]")
     val name = nameRegex.replace(namedata3, "").trim()
 
-    Log.e("floatinchecl", name)
     //balance
     val balancedata = str.substringAfter("jipya ")
     val balancedata2 = balancedata.substringBefore(".Muamala")
