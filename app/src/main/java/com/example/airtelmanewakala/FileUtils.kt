@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 var fromnetwork = "Airtel"
-//const val mtandao = "AirtelMoney"
+const val mtandao = "AirtelMoney"
 const val errornumber = "+255683071757"
 //val contactnumber = "+255714363727"
 var floatinchange = StringBuilder()
@@ -327,7 +327,7 @@ suspend fun dialUssd(
                             ussdchange.append(" amount")
                             if (message3.contains(wakalaname)) {
                                 ussdchange.append(" Accept")
-                                ussdApi.send("0007") {
+                                ussdApi.send("1212") {
 
                                 }
                             } else {

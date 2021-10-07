@@ -66,38 +66,62 @@ class MyFloatInViewHolder(val binding: FloatinitemlistBinding):RecyclerView.View
 //     val bus: String = mData.get(position)
 //     holder.busStopName.setText(bus)
      if (floatIn.status == 0) {
+         // Pending
          binding.floatincardView.setCardBackgroundColor(Color.parseColor("#add8e6"))
-         // Set text color what should be for Bus left
-     } else if (floatIn.status == 1) {
-         binding.floatincardView.setCardBackgroundColor(Color.parseColor("#00ab66"))
-         // Set text color what should be for upcoming buses
-     } else if (floatIn.status == 2) {
-       binding.floatincardView.setCardBackgroundColor(Color.parseColor("#ffa500"))
-         // Set text color what should be for upcoming buses
-     } else if (floatIn.status == 3) {
-         binding.floatincardView.setCardBackgroundColor(Color.parseColor("#808080"))
-         // Set text color what should be for upcoming buses
-     }else if (floatIn.status == 4) {
-         binding.floatincardView.setCardBackgroundColor(Color.parseColor("#ffff00"))
-         // Set text color what should be for upcoming buses
-     }else if (floatIn.status == 5) {
-         binding.floatincardView.setCardBackgroundColor(Color.parseColor("#ff0f0f"))
-         // Set text color what should be for upcoming buses
-     }
-
-     if(floatIn.status==3){
-         binding.sectionone.text=floatIn.networksms
-         binding.sectiontwo.text=floatIn.comment
-         binding.sectionthree.text=getDate(floatIn.modifiedat)
-     }else if(floatIn.status==5){
-         binding.sectionone.text=floatIn.networksms
-         binding.sectiontwo.text=floatIn.comment
-         binding.sectionthree.text=getDate(floatIn.modifiedat)
-     }else{
          binding.sectionone.text="Tsh "+getComma(floatIn.amount)+"\n"+floatIn.comment+"\n"+floatIn.transid+"\n"+getDate(floatIn.createdat)
          binding.sectiontwo.text=floatIn.fromwakalaname+"  "+floatIn.fromwakalacode+"\n"+floatIn.towakalaname+"  "+floatIn.towakalacode
          binding.sectionthree.text=floatIn.fromnetwork+"->"+floatIn.wakalaorder +"\n"+getDate(floatIn.modifiedat)
+         // Set text color what should be for Bus left
+     } else if (floatIn.status == 1) {
+         // Done
+         binding.floatincardView.setCardBackgroundColor(Color.parseColor("#00ab66"))
+         binding.sectionone.text="Tsh "+getComma(floatIn.amount)+"\n"+floatIn.comment+"\n"+floatIn.transid+"\n"+getDate(floatIn.createdat)
+         binding.sectiontwo.text=floatIn.fromwakalaname+"  "+floatIn.fromwakalacode+"\n"+floatIn.towakalaname+"  "+floatIn.towakalacode
+         binding.sectionthree.text=floatIn.fromnetwork+"->"+floatIn.wakalaorder +"\n"+getDate(floatIn.modifiedat)
+         // Set text color what should be for upcoming buses
+     } else if (floatIn.status == 2) {
+         // Large
+         binding.floatincardView.setCardBackgroundColor(Color.parseColor("#ffa500"))
+         binding.sectionone.text="Tsh "+getComma(floatIn.amount)+"\n"+floatIn.comment+"\n"+floatIn.transid+"\n"+getDate(floatIn.createdat)
+         binding.sectiontwo.text=floatIn.fromwakalaname+"  "+floatIn.fromwakalacode+"\n"+floatIn.towakalaname+"  "+floatIn.towakalacode
+         binding.sectionthree.text=floatIn.fromnetwork+"->"+floatIn.wakalaorder +"\n"+getDate(floatIn.modifiedat)
+         // Set text color what should be for upcoming buses
+     } else if (floatIn.status == 3) {
+         // Invalid
+         binding.floatincardView.setCardBackgroundColor(Color.parseColor("#808080"))
+         binding.sectionone.text=floatIn.networksms
+         binding.sectiontwo.text=floatIn.comment
+         binding.sectionthree.text=getDate(floatIn.modifiedat)
+         // Set text color what should be for upcoming buses
+     }else if (floatIn.status == 4) {
+         // Late
+         binding.floatincardView.setCardBackgroundColor(Color.parseColor("#ffff00"))
+         binding.sectionone.text="Tsh "+getComma(floatIn.amount)+"\n"+floatIn.comment+"\n"+floatIn.transid+"\n"+getDate(floatIn.createdat)
+         binding.sectiontwo.text=floatIn.fromwakalaname+"  "+floatIn.fromwakalacode+"\n"+floatIn.towakalaname+"  "+floatIn.towakalacode
+         binding.sectionthree.text=floatIn.fromnetwork+"->"+floatIn.wakalaorder +"\n"+getDate(floatIn.modifiedat)
+         // Set text color what should be for upcoming buses
+     }else if (floatIn.status == 5) {
+         // Change
+         binding.floatincardView.setCardBackgroundColor(Color.parseColor("#ff0f0f"))
+         binding.sectionone.text=floatIn.networksms
+         binding.sectiontwo.text=floatIn.comment
+         binding.sectionthree.text=getDate(floatIn.modifiedat)
+         // Set text color what should be for upcoming buses
      }
+
+//     if(floatIn.status==3){
+//         binding.sectionone.text=floatIn.networksms
+//         binding.sectiontwo.text=floatIn.comment
+//         binding.sectionthree.text=getDate(floatIn.modifiedat)
+//     }else if(floatIn.status==5){
+//         binding.sectionone.text=floatIn.networksms
+//         binding.sectiontwo.text=floatIn.comment
+//         binding.sectionthree.text=getDate(floatIn.modifiedat)
+//     }else{
+//         binding.sectionone.text="Tsh "+getComma(floatIn.amount)+"\n"+floatIn.comment+"\n"+floatIn.transid+"\n"+getDate(floatIn.createdat)
+//         binding.sectiontwo.text=floatIn.fromwakalaname+"  "+floatIn.fromwakalacode+"\n"+floatIn.towakalaname+"  "+floatIn.towakalacode
+//         binding.sectionthree.text=floatIn.fromnetwork+"->"+floatIn.wakalaorder +"\n"+getDate(floatIn.modifiedat)
+//     }
 
      binding.listItemLayout.setOnClickListener {
          clickListener(floatIn)
