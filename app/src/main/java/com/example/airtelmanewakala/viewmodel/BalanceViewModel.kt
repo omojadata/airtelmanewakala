@@ -29,7 +29,10 @@ class BalanceViewModel (private val repository: MobileRepository): ViewModel(), 
             emit(it)
         }
     }
-
+    fun insertBalance(balance: Balance): Job =
+        viewModelScope.launch {
+            repository.insertBalance(balance)
+        }
 //
 //    fun insertBalance(balance: List<Balance>): Job =
 //        viewModelScope.launch {

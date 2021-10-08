@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.icu.text.NumberFormat
 import android.os.Build
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -52,13 +53,21 @@ class MyBalanceViewHolder(val binding: BalanceitemlistBinding): RecyclerView.Vie
     fun bind(balance: Balance){
         if (balance.status == 1) {
             binding.balancecardView.setCardBackgroundColor(Color.parseColor("#00ab66"))
+            binding.sectionone.text="Tsh "+getComma(balance.balance)
+            binding.sectiontwo.text=balance.floatname+"\n"+"Tsh "+getComma(balance.floatamount)
+            binding.sectionthree.text=getDate(balance.createdAt)
         } else if (balance.status == 2) {
             binding.balancecardView.setCardBackgroundColor(Color.parseColor("#ff0f0f"))
+            binding.sectionone.text="Tsh "+getComma(balance.balance)
+            binding.sectiontwo.text=balance.floatname+"\n"+"Tsh "+getComma(balance.floatamount)
+            binding.sectionthree.text=getDate(balance.createdAt)
+        }else{
+            binding.balancecardView.setCardBackgroundColor(Color.parseColor("#808080"))
+            binding.sectionone.text="Tsh "+getComma(balance.balance)
+            binding.sectiontwo.visibility= View.GONE
+            binding.sectionthree.text=getDate(balance.createdAt)
         }
 
-        binding.sectionone.text="Tsh "+getComma(balance.balance)
-        binding.sectiontwo.text=balance.floatname+"\n"+"Tsh "+getComma(balance.floatamount)
-        binding.sectionthree.text=getDate(balance.createdAt)
     }
 
 

@@ -7,18 +7,61 @@
             name="myBalanceViewModel"
             type="com.example.airtelmanewakala.viewmodel.BalanceViewModel" />
     </data>
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Fragments.Balance"
         android:layout_margin="15dp"
-        android:orientation="vertical">
+        android:paddingHorizontal="10dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/balance_recyclerView"
-            android:layout_margin="0dp"
-            />
-    </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="5dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/balance_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/wakala"
+            app:fabSize="auto"
+            app:backgroundTint="#4527A0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/insert_balance_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:fabSize="auto"
+            app:backgroundTint="#6A1B9A"
+            app:layout_constraintBottom_toTopOf="@+id/balance_fab"
+            app:layout_constraintEnd_toEndOf="@+id/balance_fab"
+            app:layout_constraintStart_toStartOf="@+id/balance_fab"
+            app:srcCompat="@drawable/add_balance" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/download_balance_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:fabSize="auto"
+            app:backgroundTint="#9c27b0"
+            app:layout_constraintBottom_toTopOf="@+id/insert_balance_fab"
+            app:layout_constraintEnd_toEndOf="@+id/insert_balance_fab"
+            app:layout_constraintStart_toStartOf="@+id/insert_balance_fab"
+            app:srcCompat="@drawable/download_wakala" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
