@@ -102,7 +102,7 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
             if (checkFloatIn(floatIn.networksms)) {
 
                 //GET VARIBLES
-                val (amount, name, balance, transid) = getFloatIn(floatIn.networksms)
+                val (amount, name, balance, transid,code) = getFloatIn(floatIn.networksms)
 
                 //CHECK IF TRANSACTION EXISTS
                 val searchFloatInNotDuplicate = repository.searchFloatInNotDuplicate(transid)
@@ -119,7 +119,7 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
                     )
 
                     //CHECK IF WAKALA EXISTS
-                    val searchWakala = repository.searchWakala(name)
+                    val searchWakala = repository.searchWakala(name,code)
 
                     if (searchWakala != null) {
 

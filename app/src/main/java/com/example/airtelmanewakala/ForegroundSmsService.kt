@@ -98,7 +98,7 @@ class ForegroundSmsService : Service() {
                     if (checkFloatIn(smsbody)) {
 
                         //GET VARIBLES
-                        val (amount, name, balance, transid) = getFloatIn(smsbody)
+                        val (amount, name, balance, transid,code) = getFloatIn(smsbody)
 
                         //CHECK IF TRANSACTION EXISTS
                         val searchFloatInNotDuplicate =
@@ -117,7 +117,7 @@ class ForegroundSmsService : Service() {
                             )
 
                             //CHECK IF WAKALA EXISTS
-                            val searchWakala = repository.searchWakala(name)
+                            val searchWakala = repository.searchWakala(name,code)
 
                             if (searchWakala != null) {
 
@@ -161,10 +161,9 @@ class ForegroundSmsService : Service() {
                                         sendBroadcast(Intent().setAction("floatInReceiver"))
 
                                         val amounting = getComma(amount)
-                                        val timeM = getTime(madeAt)
-                                        val timeC = getTime(createdAt)
+
                                         var smsText =
-                                            "Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Tigo, Vodacom au Halotel"
+                                            "Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Vodacom au Halotel"
                                         sendSms(wakalacontact, smsText)
 
                                     } else {
@@ -310,7 +309,7 @@ class ForegroundSmsService : Service() {
                     if (checkFloatOut(smsbody)) {
 
                         //GET VARIBLES
-                        val (amount, name, balance, transid) = getFloatOut(smsbody)
+                        val (amount, name, balance, transid,code) = getFloatOut(smsbody)
 
                         //CHECK IF TRANSACTION(transactionid) EXISTS
                         val searchFloatOutNotDuplicate =
@@ -330,7 +329,7 @@ class ForegroundSmsService : Service() {
                             )
 
                             //CHECK IF WAKALA EXISTS
-                            val searchWakala = repository.searchWakala(name)
+                            val searchWakala = repository.searchWakala(name,code)
                             Log.e("SANTA", name)
                             if (searchWakala != null) {
 
