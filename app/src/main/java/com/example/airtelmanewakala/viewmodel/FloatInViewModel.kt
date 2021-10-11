@@ -160,7 +160,7 @@ class FloatInViewModel(private val repository: MobileRepository) : ViewModel(), 
                                 val amounting = getComma(amount)
 
                                 var smsText =
-                                    "Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Tigo, Vodacom au Halotel."
+                                    "Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Vodacom au Halotel."
                                 sendSms(wakalacontact, smsText)
 
                             } else {

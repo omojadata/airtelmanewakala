@@ -121,8 +121,6 @@ class ForegroundSmsService : Service() {
 
                             if (searchWakala != null) {
 
-                                val timeDiff = createdAt - madeAt
-
                                 val wakalaKeyId = searchWakala.wakalaid
                                 val wakalacontact = searchWakala.contact
                                 val fromwakalaname = searchWakala.airtelname
@@ -501,7 +499,6 @@ class ForegroundSmsService : Service() {
                         )
 
                     if (searchFloatOutOrderNotDuplicate) {
-                        Log.e("hasan", "2")
                         //CHECK IF WAKALA MKUU EXISTS AND GET ID
                         val searchWakalaMkuu = when (fromnetwork) {
                             "Tigo" -> repository.searchWakalaMkuuTigo(phone)?.wakalamkuuid
@@ -509,7 +506,6 @@ class ForegroundSmsService : Service() {
                             "Halotel" -> repository.searchWakalaMkuuHalotel(phone)?.wakalamkuuid
                             else -> ""
                         }
-
 //                       val searchWakalaMkuu = repository.searchWakalaMkuuVoda(phone).wakalamkuuid
 
                         if (!searchWakalaMkuu.isNullOrBlank()) {
@@ -588,7 +584,7 @@ class ForegroundSmsService : Service() {
                         }
                     }
                 }
-                } else if (firstword == "Tigo" || firstword == "Vodacom" || firstword == "Halotel") {
+                } else if (firstword == "Vodacom" || firstword == "Halotel") {
 
                     val phone = filterNumber(smsAddress)
 

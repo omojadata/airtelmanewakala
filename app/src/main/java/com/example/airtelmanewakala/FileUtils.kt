@@ -235,14 +235,15 @@ fun getFloatIn(str: String): Array<String> {
 }
 
 //fun main(){
-////    val stri="Umetuma 10,000.00 Tsh kwenda 689358490,EDWIN DAMAS MROSSO.Kodi Tsh 0.00). Salio Jipya Tsh 150,000.00Tsh .Muamala No. PP211006.1842.E28687.Tunakujali,Muamala Huu Ni BURE!"
-//val stri= "Umepokea Tsh100,000.00 kutoka 787193129,AUDAX OSCAR MUJUNI. Salio jipya Tsh955,000.00.Muamala No: PP211005.1314.B61281"
-////    checkFloatOut(stri)
+//    val stri="Umetuma 10,000.00 Tsh kwenda 689358490,EDWIN DAMAS MROSSO.Kodi Tsh 0.00). Salio Jipya Tsh 150,000.00Tsh .Muamala No. PP211006.1842.E28687.Tunakujali,Muamala Huu Ni BURE!"
+//    val stri= "Umepokea Tsh100,000.00 kutoka 787193129,AUDAX OSCAR MUJUNI. Salio jipya Tsh955,000.00.Muamala No: PP211005.1314.B61281"
+//    checkFloatOut(stri)
 //    println(checkFloatIn(stri).toString())
 //    for (ele in getFloatIn(stri) ){
 //        println(ele)
 //    }
 //}
+
 //Umetuma 10,000.00 Tsh kwenda 689358490,EDWIN DAMAS MROSSO.Kodi Tsh 0.00). Salio Jipya Tsh 150,000.00Tsh .Muamala No. PP211006.1842.E28687.Tunakujali,Muamala Huu Ni BURE!
 fun checkFloatOut(str: String): Boolean {
     //amount

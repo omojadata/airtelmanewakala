@@ -276,7 +276,7 @@ class FloatIn : Fragment() {
             //pending
             val amounting = getComma(floatIn.amount)
             val sendSms =
-                "Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Tigo, Vodacom au Halotel"
+                "Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Vodacom au Halotel"
             sendSms(floatIn.wakalacontact, sendSms)
         } else if (floatIn.status == 2 ) {
             //large
@@ -287,11 +287,11 @@ class FloatIn : Fragment() {
                 floatInViewModel.uFloatInLarge(floatIn.floatinid,"LARGE",modifiedAt)
 
                 val sendSms =
-                    "Kiwango chako cha juu ni Tsh $maxamount. Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Tigo, Vodacom au Halotel."
+                    "Kiwango chako cha juu ni Tsh $maxamount. Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Vodacom au Halotel."
                 sendSms(floatIn.wakalacontact, sendSms)
             }else if(floatIn.comment=="LARGE"){
                 val sendSms =
-                    "Kiwango chako cha juu ni Tsh $maxamount.Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Tigo, Vodacom au Halotel."
+                    "Kiwango chako cha juu ni Tsh $maxamount.Kiasi: Tsh $amounting, Mtandao: $fromnetwork itumwe wapi? Jibu Vodacom au Halotel."
                 sendSms(floatIn.wakalacontact, sendSms)
             }
 
