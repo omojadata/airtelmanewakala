@@ -370,8 +370,7 @@ suspend fun dialUssd(
                             ussdchange.append(" amount")
                             if (message3.contains(wakalaname)) {
                                 ussdchange.append(" Accept")
-                                ussdApi.send("1212") {
-
+                                ussdApi.send("0007") {
                                 }
                             } else {
                                 ussdApi.cancel()
