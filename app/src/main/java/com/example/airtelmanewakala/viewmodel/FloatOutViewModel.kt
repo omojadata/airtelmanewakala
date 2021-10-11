@@ -100,7 +100,7 @@ class FloatOutViewModel(private val repository: MobileRepository) : ViewModel(),
             if (checkFloatOut(floatOut.networksms)) {
 
                 //GET VARIBLES
-                val (amount, name, balance, transid) = getFloatOut(floatOut.networksms)
+                val (amount, name, balance, transid,code) = getFloatOut(floatOut.networksms)
 
                 //CHECK IF TRANSACTION(transactionid) EXISTS
                 val searchFloatOutNotDuplicate = repository.searchFloatOutNotDuplicate(transid)
@@ -117,7 +117,7 @@ class FloatOutViewModel(private val repository: MobileRepository) : ViewModel(),
                     )
 
                     //CHECK IF WAKALA EXISTS
-                    val searchWakala = repository.searchWakala(name)
+                    val searchWakala = repository.searchWakala(name,code)
                     if (searchWakala != null) {
 
                         // CHECK IF FLOATOUT WAKALA ORDER EXISTS (floatinid(sent bu wakala mkuu order)) EXISTS
